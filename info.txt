@@ -1,0 +1,24 @@
+
+#DOCKER NET
+docker network create -d bridge java-react-net
+
+build -t react-front .
+
+ ## java + maven
+docker run  -it \
+--name react-front \
+--network java-react-net \
+-p 3000:3000 \
+-v $(pwd):/usr/src/frontend react-front
+
+
+
+
+############# CREATING APP
+sudo npm install -g create-react-app
+create-react-app frontend
+
+### REACT START: 
+npm start
+### TEST START
+npm test
