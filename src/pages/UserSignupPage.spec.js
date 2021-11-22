@@ -56,7 +56,7 @@ describe('UserSignupPage', () => {
             }
         }
 
-        let button, usernameInput, displayNameInput, passwordInput, repeatPasswordInput;
+        let button, userNameInput, displayNameInput, passwordInput, repeatPasswordInput;
 
         const setupForSubmit = (props) => {
             const rendered = render (
@@ -64,9 +64,9 @@ describe('UserSignupPage', () => {
 
             );
             const {container ,queryByPlaceholderText} = rendered;
-
-            displayNameInput = queryByPlaceholderText('Your display name');
             userNameInput = queryByPlaceholderText('Your Username');
+            displayNameInput = queryByPlaceholderText('Your display name');
+            
             passwordInput = queryByPlaceholderText('Your Password');
             repeatPasswordInput = queryByPlaceholderText('Repeat Your Password');
 
@@ -89,6 +89,12 @@ describe('UserSignupPage', () => {
             const userNameInput = queryByPlaceholderText('Your Username');
             fireEvent.change(userNameInput, changeEvent('my-user-name'));
             expect(userNameInput).toHaveValue('my-user-name');
+        });
+        it('sets the password value into state', () =>{
+            const {queryByPlaceholderText} = render(<UserSignupPage />);
+            const passwordInput = queryByPlaceholderText('Your Password');
+            fireEvent.change(passwordInput, changeEvent('P4ssword'));
+            expect(passwordInput).toHaveValue('P4ssword');
         })
         it('calls postSignup when the fields are valid and the actions are provided in props', ()=>{
             const actions = {
@@ -99,7 +105,6 @@ describe('UserSignupPage', () => {
             expect(actions.postSignup).toHaveBeenCalledTimes(1);
         });
         it('does not throw exceptions calls postSignup when the actions are not provided in props', ()=>{
-            setupForSubmit({actions});
             expect(() => fireEvent.click(button)).not.toThrow();
         });
         it('call post with user body when the fields are valid', ()=>{
@@ -108,10 +113,11 @@ describe('UserSignupPage', () => {
             }
             setupForSubmit({actions});
             const expectedUserObject = {
-                username:"my-user-name",
+                userName:"my-user-name",
                 displayName:"my-display-name",
                 password:"P4ssword"
             }
+            fireEvent.click(button);
             expect(actions.postSignup).toHaveBeenCalledWith(expectedUserObject);
         });
     });
