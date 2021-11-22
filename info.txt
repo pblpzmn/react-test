@@ -22,3 +22,6 @@ create-react-app frontend
 npm start
 ### TEST START
 npm test
+
+## Axios to call backend
+npm install --save axios
